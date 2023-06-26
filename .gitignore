@@ -1,6 +1,5 @@
 /.idea
 /.ipynb_checkpoints
-/client/node_modules
 /flask-server/env
 /Retina.gene.expr.csv
 /Retina.gene.expr.renamed.csv
