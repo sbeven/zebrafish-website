@@ -1,0 +1,71 @@
+
+/*bootstrap input fields*/
+
+.form-control {
+    border-color: rgb(95, 95, 95) !important;
+}
+/*idk how this works but it adjusts blue shadow*/
+.form-control:focus {
+    border-color: lightblue !important;
+    box-shadow: 0px 0px 0px 1px lightblue !important;
+  }
+
+/* searchbar*/
+.bar {
+    width: 150px;
+    float: left;
+
+}
+
+
+.button {
+    float:left;
+    padding: 0px 8px 0px 8px;
+}
+#searchbar {
+    float:left;
+    padding: 0px 0px 0px 30px;
+    height:40px;
+    width:fit-content;
+}
+
+
+#page {
+    /*this makes sure float obects stay inside*/
+    overflow: visible;
+}
+main {
+    padding: 10px 10px 50px 10px
+}
+
+.graph {
+    flex:1;
+    
+    clear:left;
+    min-width: 500px;
+    min-height: 300px;
+    height:100vh;
+    max-width: 750px;
+    max-height: 400px;
+    
+}
+
+.response {
+    float:left;
+    margin:0px;
+    text-align: center;
+    padding: 6px 0px 0px 8px ;
+}
+
+/*slider page*/
+.sliderText {
+    text-align: center;
+    width: fit-content;
+    height: fit-content;
+}
+
+/*scatter graph tissue selection*/
+.dropdown-menu {
+    height: 150px;
+    overflow-y: scroll;
+  }
