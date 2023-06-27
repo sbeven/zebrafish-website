@@ -18,6 +18,7 @@ ChartJS.register(LinearScale, PointElement, LineElement, Tooltip, Legend);
 const options = {
     responsive: true,
     maintainAspectRatio: false,
+    animation: false,
     elements: {
         point: {
             pointRadius: 5,
@@ -93,7 +94,8 @@ export default function ScatterGraph({passedData}) {
     
     async function search(gene) {
         await fetch("/search?"+ new URLSearchParams({
-            query: gene
+            gene: gene,
+            dataset: "Zebrafish Retina"
         })).then(
                 res => {
                     if (!res.ok) {
@@ -151,7 +153,7 @@ export default function ScatterGraph({passedData}) {
             <Scatter ref={chartReference} options={options} data={data} onClick={onClick} />
         </div> 
         <br/>
-        <BarGraph passedData={barData} passedGene={gene}/>
+        <BarGraph passedData={barData} passedGene={gene} dataset={"Zebrafish Retina"}/>
         </div>
     )
     

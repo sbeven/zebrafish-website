@@ -60,7 +60,7 @@ export default function SingleWeighted() {
 
     return (
         <div>
-            <h1>Specificity/Coverage weighted lookup</h1>
+            <h1>Specificity/Coverage weighted lookup (Retina)</h1>
             <p style={{margin: "0px"}}>Search for the top genes based on a weighted average of specificity and coverage.
                 Click on a point to show expression percentages.</p>
             <div style={{ display: 'flex', alignItems: "center", margin: "5px 0px"}}>

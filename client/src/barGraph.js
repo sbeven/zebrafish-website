@@ -20,6 +20,16 @@ import {
     Legend
   );
   
+  const landscapeLabels = ['Cardiomyocyte', 'Endothelial cell', 
+  'Enterocyte', 'Epithelial cell', 'Epithelial cell (Brain)', 
+  'Erythrocyte', 'Erythrocyte (Liver)', 'Erythroid Progenitor cell', 
+  'Fibroblast', 'Goblet cell', 'Granulocyte', 'Granulosa cell', 'Hatching Gland', 
+  'Hepatocyte', 'Immune cell', 'Immune Progenitor cell', 'Intestinal Bulb cell', 
+  'Ionocyte', 'Keratinocyte', 'Macrophage', 'Mesenchymal cell', 'Mesenchymal cell (Caudal Fin)', 
+  'Mt-rich cell', 'Muscle cell', 'Nephron cell', 'Neural cell', 'Neural Progenitor cell', 
+  'Neurosecretory cell', 'Oligodendrocyte', 'Oocyte', 'Osteoblast', 'Pancreatic cell', 
+  'Pancreatic Macrophage', 'Primordial Germ cell', 'Radial Glia', 'Retinal cell', 'Retinal Cone cell', 
+  'Retinal Pigment Epithelial cell', 'Smooth Muscle cell', 'Spermatocyte', 'T cell']
 
   const options = {
     indexAxis: 'y',
@@ -61,7 +71,7 @@ import {
   const labels = ["Amacrine","Bipolar","Cone","Cornea","Horizontal","Müller Glia","RGC","Rod","RPE"];
   
   var data = {
-    labels,
+    labels: labels,
     
     datasets: [
       {
@@ -73,9 +83,19 @@ import {
   };
 // ^^ this is chart stuff
 
-export default function BarGraph({passedData, passedGene}) {
+export default function BarGraph({passedData, passedGene, dataset}) {
   const chartReference = useRef();
-   
+  useEffect(() => {
+    const chart = chartReference.current
+    if (dataset === "Zebrafish Landscape") {
+      chart.data.labels = landscapeLabels
+    } else {
+      chart.data.labels = labels
+
+    }
+    chart.data.datasets[0].data = []
+  }, [dataset])
+
   useEffect(() => {
       const chart = chartReference.current
       chart.data.datasets[0].data = passedData
@@ -87,7 +107,7 @@ export default function BarGraph({passedData, passedGene}) {
       chart.update()
   }, [passedData, passedGene])
     return (
-    <div className='graph'>
+    <div className='graph' style={{height: dataset === "Zebrafish Retina" ? "400px" : "820px"}}>
     <Bar ref={chartReference}
     options={options} 
     data={data} />

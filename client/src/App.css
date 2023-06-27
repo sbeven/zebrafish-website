@@ -43,10 +43,9 @@ main {
     
     clear:left;
     min-width: 500px;
-    min-height: 300px;
-    height:100vh;
+    min-height: 400px;
     max-width: 750px;
-    max-height: 400px;
+    max-height: 1000px;
     
 }
 
@@ -66,6 +65,6 @@ main {
 
 /*scatter graph tissue selection*/
 .dropdown-menu {
-    height: 150px;
+    max-height: 150px;
     overflow-y: scroll;
   }

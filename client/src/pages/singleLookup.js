@@ -2,6 +2,7 @@ import React, { useState} from 'react';
 import SearchBar from '../searchbar';
 import BarGraph from '../barGraph';
 
+import { DropdownButton, Dropdown } from 'react-bootstrap';
 
 export default function SingleLookup() {
 
@@ -10,12 +11,14 @@ export default function SingleLookup() {
     const [searchWord, setSearchWord] = useState("")
     const [data, setData] = useState([])
     const [gene, setGene] = useState("")
+    const [dataset, setDataset] = useState("Zebrafish Retina")
 
     //api call set and get
     async function search() {
         setLoad(true)
         await fetch("/search?"+ new URLSearchParams({
-            query: searchWord
+            gene: searchWord,
+            dataset: dataset
         })).then(
                 res => {
                     if (!res.ok) {
@@ -29,6 +32,7 @@ export default function SingleLookup() {
         ).then(
             object => {
                 setResponse("")
+                console.log(object["data"])
                 setData(object["data"])
                 setGene(searchWord)
             }
@@ -43,7 +47,15 @@ export default function SingleLookup() {
     return (
         <div id="page">
         <h1>Zebrafish Gene Expression Lookup</h1>
-        <p>Type a gene into the search bar e.g. si:ch73-252i11.1, rpl18a</p>
+        <p style={{margin: "0px"}}>Type a gene into the search bar e.g. si:ch73-252i11.1, rpl18a</p>
+        <div style={{ display: 'flex', alignItems: "center", margin: "5px 0px"}}>
+                <p style={{ margin: "0px", padding: "0px 10px 0px 0px" }}>Set dataset</p>
+                <DropdownButton size='sm' variant="outline-primary" id="dropdown-basic-button" title={dataset}>
+                    <Dropdown.Item onClick={() => setDataset("Zebrafish Retina")} >Zebrafish Retina</Dropdown.Item>
+                    <Dropdown.Item onClick={() => setDataset("Zebrafish Landscape")} >Zebrafish Landscape</Dropdown.Item>
+                    
+                </DropdownButton>
+            </div>
         <div id="searchbar">
         <SearchBar
                   loading={load} 
@@ -53,7 +65,7 @@ export default function SingleLookup() {
         </div>
         <p className = "response">{response}</p>
 
-        <BarGraph passedData={data} passedGene={gene}/>
+        <BarGraph passedData={data} passedGene={gene} dataset={dataset}/>
         </div>
         
     )
