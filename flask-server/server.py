@@ -12,8 +12,11 @@ df = pd.read_csv("../Retina.gene.expr.renamed.csv")
 df = df.set_index("Unnamed: 0")
 df_spec = pd.read_csv("../spec.csv")
 df_spec = df_spec.set_index("Unnamed: 0")
-df_land = pd.read_csv("../Landscape.gene.expr.csv")
+# we dont want last 2 columns
+df_land = pd.read_csv("../Landscape.gene.expr.truncated.csv")
 df_land = df_land.set_index("gene")
+df_land_spec = pd.read_csv("../Landscape_spec.csv")
+df_land_spec = df_land_spec.set_index("gene")
 
 #API Route
 @app.route("/search", methods=['GET'])
@@ -27,21 +30,28 @@ def search():
             return "Record not found", 400
     else:
         if row in df_land.index:
-            return {"data": df_land.loc[row].tolist()[:-2]}
+            return {"data": df_land.loc[row].tolist()}
         else:
             return "Record not found", 400
 
 @app.route("/searchWeighted", methods=['GET'])
 def searchWeighted():
+    dataset = request.args.get('dataset')
     tissue = request.args.get("tissue")
     weight = int(request.args.get("weight"))
     number = int(request.args.get("number"))
-    
+    # set which datasets to get data from
+    if dataset == "Zebrafish Retina":
+        base_data = df
+        spec_data = df_spec
+    elif dataset == "Zebrafish Landscape":
+        base_data = df_land
+        spec_data = df_land_spec
     percent =  weight / 100
-    cov = df[tissue]
-    spec = df_spec[tissue + "_spec"]
-    cov_weighted = df[tissue] * percent
-    spec_weighted = df_spec[tissue + "_spec"] * (1 - percent)
+    cov = base_data[tissue]
+    spec = spec_data[tissue + "_spec"]
+    cov_weighted = base_data[tissue] * percent
+    spec_weighted = spec_data[tissue + "_spec"] * (1 - percent)
 
     sum = cov_weighted + spec_weighted
 
@@ -51,5 +61,7 @@ def searchWeighted():
     for gene in sum.iloc[:number].index:
         list.append({"data": gene, "x": cov[gene], "y": spec[gene]})
     return list
+    
+
 if __name__ == "__main__":
     app.run(debug = True)

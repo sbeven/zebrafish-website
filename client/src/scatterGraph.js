@@ -85,7 +85,7 @@ datasets: [
 };
 
 
-export default function ScatterGraph({passedData}) {
+export default function ScatterGraph({passedData, passedDataset}) {
 
     const [barData, setBarData] = useState([])
     const [gene, setGene] = useState("")
@@ -95,7 +95,7 @@ export default function ScatterGraph({passedData}) {
     async function search(gene) {
         await fetch("/search?"+ new URLSearchParams({
             gene: gene,
-            dataset: "Zebrafish Retina"
+            dataset: passedDataset
         })).then(
                 res => {
                     if (!res.ok) {
@@ -132,7 +132,7 @@ export default function ScatterGraph({passedData}) {
         const point = chart.data.datasets[datasetIndex].data[index]
         search(point.data)
       };
-
+      //update data
     useEffect(() => {
         const chart = chartReference.current
         chart.data.datasets[0].data = passedData
@@ -145,15 +145,27 @@ export default function ScatterGraph({passedData}) {
         chart.update()
     }, [passedData])
 
+    //update when change dataset
+    useEffect(() => {
+        const chart = chartReference.current
+        chart.data.datasets[0].data = []
+        chart.options.plugins.title.text = ""
+        chart.update()
+      }, [passedDataset])
+
+
 
     
     return (
         <div style={{ display: 'flex', flexWrap: "wrap"}}>
-        <div className='graph'>
-            <Scatter ref={chartReference} options={options} data={data} onClick={onClick} />
+        <div className='graph' style={{height: "400px" }}>
+        {/*this is if i want the scatter height to be responsive
+        passedDataset === "Zebrafish Retina" ? "400px" : "820px"*/}
+            <Scatter ref={chartReference} options={options} data={data} onClick={onClick} 
+            />
         </div> 
         <br/>
-        <BarGraph passedData={barData} passedGene={gene} dataset={"Zebrafish Retina"}/>
+        <BarGraph passedData={barData} passedGene={gene} dataset={passedDataset}/>
         </div>
     )
     

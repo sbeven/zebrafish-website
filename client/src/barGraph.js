@@ -94,6 +94,8 @@ export default function BarGraph({passedData, passedGene, dataset}) {
 
     }
     chart.data.datasets[0].data = []
+    chart.options.plugins.title.text = ""
+    chart.update()
   }, [dataset])
 
   useEffect(() => {

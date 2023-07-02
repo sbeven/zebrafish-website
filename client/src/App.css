@@ -40,8 +40,6 @@ main {
 
 .graph {
     flex:1;
-    
-    clear:left;
     min-width: 500px;
     min-height: 400px;
     max-width: 750px;
