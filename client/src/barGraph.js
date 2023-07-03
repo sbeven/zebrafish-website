@@ -63,6 +63,13 @@ import {
   const options = {
     indexAxis: 'y',
     scales: {
+      y: {
+        ticks: {
+          font: {
+            size: 10
+          }
+        }
+      },
       x: 
        
         { 
@@ -140,7 +147,7 @@ export default function BarGraph({passedData, passedGene, dataset}) {
       chart.update()
   }, [passedData, passedGene])
     return (
-    <div className='graph' style={{height: dataset === "Zebrafish Retina" ? "400px" : "820px"}}>
+    <div className='graph' style={{height: dataset === "Zebrafish Retina" ? "400px" : "700px"}}>
     <Bar ref={chartReference}
     options={options} 
     data={data} />
