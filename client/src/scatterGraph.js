@@ -108,6 +108,7 @@ export default function ScatterGraph({passedData, passedDataset}) {
                 
         ).then(
             object => {
+                console.log(object["data"])
                 setBarData(object["data"])
                 setGene(gene)
             }

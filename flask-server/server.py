@@ -12,11 +12,15 @@ df = pd.read_csv("../Retina.gene.expr.renamed.csv")
 df = df.set_index("Unnamed: 0")
 df_spec = pd.read_csv("../spec.csv")
 df_spec = df_spec.set_index("Unnamed: 0")
-# we dont want last 2 columns
 df_land = pd.read_csv("../Landscape.gene.expr.truncated.csv")
 df_land = df_land.set_index("gene")
 df_land_spec = pd.read_csv("../Landscape_spec.csv")
 df_land_spec = df_land_spec.set_index("gene")
+df_land_72hr = pd.read_csv("../Landscape72hr.truncated.csv")
+df_land_72hr = df_land_72hr.set_index("Unnamed: 0")
+df_land_72hr_spec = pd.read_csv("../Landscape72hr_spec.csv")
+df_land_72hr_spec = df_land_72hr_spec.set_index("Unnamed: 0")
+
 
 #API Route
 @app.route("/search", methods=['GET'])
@@ -28,9 +32,14 @@ def search():
             return {"data": df.loc[row].tolist()}
         else:
             return "Record not found", 400
-    else:
+    elif dataset == "Zebrafish Landscape":
         if row in df_land.index:
             return {"data": df_land.loc[row].tolist()}
+        else:
+            return "Record not found", 400
+    elif dataset == "Zebrafish Landscape Day 3":
+        if row in df_land_72hr.index:
+            return {"data": df_land_72hr.loc[row].tolist()}
         else:
             return "Record not found", 400
 
@@ -47,6 +56,9 @@ def searchWeighted():
     elif dataset == "Zebrafish Landscape":
         base_data = df_land
         spec_data = df_land_spec
+    elif dataset == "Zebrafish Landscape Day 3":
+        base_data = df_land_72hr
+        spec_data = df_land_72hr_spec
     percent =  weight / 100
     cov = base_data[tissue]
     spec = spec_data[tissue + "_spec"]

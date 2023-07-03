@@ -53,6 +53,7 @@ export default function SingleLookup() {
                 <DropdownButton size='sm' variant="outline-primary" id="dropdown-basic-button" title={dataset}>
                     <Dropdown.Item onClick={() => setDataset("Zebrafish Retina")} >Zebrafish Retina</Dropdown.Item>
                     <Dropdown.Item onClick={() => setDataset("Zebrafish Landscape")} >Zebrafish Landscape</Dropdown.Item>
+                    <Dropdown.Item onClick={() => setDataset("Zebrafish Landscape Day 3")} >Zebrafish Landscape Day 3</Dropdown.Item>
                     
                 </DropdownButton>
             </div>

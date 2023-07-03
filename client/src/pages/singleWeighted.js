@@ -29,6 +29,34 @@ export default function SingleWeighted() {
   'Pancreatic Macrophage', 'Primordial Germ cell', 'Radial Glia', 'Retinal cell', 'Retinal Cone cell', 
   'Retinal Pigment Epithelial cell', 'Smooth Muscle cell', 'Spermatocyte', 'T cell']
 
+    const day3Types = ['Cardiomyocyte',
+    'Endothelial cell',
+    'Epithelial cell',
+    'Epithelial cell (Brain)',
+    'Erythrocyte',
+    'Erythroid Progenitor cell',
+    'Granulocyte',
+    'Hepatocyte',
+    'Immune Progenitor cell',
+    'Intestinal Bulb cell',
+    'Ionocyte',
+    'Keratinocyte',
+    'Macrophage',
+    'Mesenchymal cell',
+    'Mt-rich cell',
+    'Muscle cell',
+    'Nephron cell',
+    'Neural cell',
+    'Neural Progenitor cell',
+    'Neurosecretory cell',
+    'Oligodendrocyte',
+    'Osteoblast',
+    'Pancreatic cell',
+    'Primordial Germ cell',
+    'Radial Glia',
+    'Retinal cell',
+    'Retinal Cone cell',
+    'Retinal Pigment Epithelial cell']
 
     function changeWeight(val) {
         if (validWeight.test(val)) {
@@ -77,6 +105,8 @@ export default function SingleWeighted() {
                 setTissueType(landscapeTypes[0])
             } else if (newType === "Zebrafish Retina") {
                 setTissueType(tissueTypes[0])
+            } else if (newType === "Zebrafish Landscape Day 3") {
+                setTissueType(day3Types[0])
             }
         }
         
@@ -93,13 +123,15 @@ export default function SingleWeighted() {
             <DropdownButton size='sm' variant="outline-primary" id="dropdown-basic-button" title={dataset}>
                 <Dropdown.Item onClick={() => setDatasetAndSelection("Zebrafish Retina")} >Zebrafish Retina</Dropdown.Item>
                 <Dropdown.Item onClick={() => setDatasetAndSelection("Zebrafish Landscape")} >Zebrafish Landscape</Dropdown.Item>
-                
+                <Dropdown.Item onClick={() => setDatasetAndSelection("Zebrafish Landscape Day 3")} >Zebrafish Landscape Day 3</Dropdown.Item>
             </DropdownButton>
             <p style={{ margin: "0px", padding: "0px 10px 0px 10px" }}>Set tissue type</p>
                 <DropdownButton size='sm' variant="outline-primary" id="dropdown-basic-button" title={tissueType}>
                     {dataset === "Zebrafish Retina" ? 
                     tissueTypes.map(type => <Dropdown.Item key={type} onClick={() => setTissueType(type)} >{type}</Dropdown.Item>)
-                    : landscapeTypes.map(type => <Dropdown.Item key={type} onClick={() => setTissueType(type)} >{type}</Dropdown.Item>)}
+                    : (dataset === "Zebrafish Landscape" ? 
+                    landscapeTypes.map(type => <Dropdown.Item key={type} onClick={() => setTissueType(type)} >{type}</Dropdown.Item>)
+                    :day3Types.map(type => <Dropdown.Item key={type} onClick={() => setTissueType(type)} >{type}</Dropdown.Item>))}
                     
                 </DropdownButton>
             </div>

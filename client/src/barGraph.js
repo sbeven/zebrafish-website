@@ -20,6 +20,35 @@ import {
     Legend
   );
   
+  const day3Labels = ['Cardiomyocyte',
+  'Endothelial cell',
+  'Epithelial cell',
+  'Epithelial cell (Brain)',
+  'Erythrocyte',
+  'Erythroid Progenitor cell',
+  'Granulocyte',
+  'Hepatocyte',
+  'Immune Progenitor cell',
+  'Intestinal Bulb cell',
+  'Ionocyte',
+  'Keratinocyte',
+  'Macrophage',
+  'Mesenchymal cell',
+  'Mt-rich cell',
+  'Muscle cell',
+  'Nephron cell',
+  'Neural cell',
+  'Neural Progenitor cell',
+  'Neurosecretory cell',
+  'Oligodendrocyte',
+  'Osteoblast',
+  'Pancreatic cell',
+  'Primordial Germ cell',
+  'Radial Glia',
+  'Retinal cell',
+  'Retinal Cone cell',
+  'Retinal Pigment Epithelial cell']
+
   const landscapeLabels = ['Cardiomyocyte', 'Endothelial cell', 
   'Enterocyte', 'Epithelial cell', 'Epithelial cell (Brain)', 
   'Erythrocyte', 'Erythrocyte (Liver)', 'Erythroid Progenitor cell', 
@@ -89,9 +118,11 @@ export default function BarGraph({passedData, passedGene, dataset}) {
     const chart = chartReference.current
     if (dataset === "Zebrafish Landscape") {
       chart.data.labels = landscapeLabels
-    } else {
+    } else if (dataset === "Zebrafish Retina") {
       chart.data.labels = labels
 
+    } else if (dataset === "Zebrafish Landscape Day 3") {
+      chart.data.labels = day3Labels
     }
     chart.data.datasets[0].data = []
     chart.options.plugins.title.text = ""
