@@ -1,4 +1,4 @@
-import { useState} from 'react';
+import { useState  } from 'react';
 import { Form } from 'react-bootstrap';
 import Slider from '@mui/material/Slider';
 import { Button, DropdownButton, Dropdown } from 'react-bootstrap';
@@ -7,13 +7,15 @@ import ScatterGraph from '../scatterGraph';
 
 export default function SingleWeighted() {
     const [load, setLoad] = useState(false)
-    const [tissueType, setTissueType] = useState("Amacrine")
+    const [tissueType, setTissueType] = useState(sessionStorage.getItem("tissueType")
+    !== null ? sessionStorage.getItem("tissueType") : "Amacrine")
     const [weight, setWeight] = useState(sessionStorage.getItem("weight") 
     !== null ? Number(sessionStorage.getItem("weight")) : 50)
     const [string, setString] = useState("")
     const [numGenes, setNumGenes] = useState(sessionStorage.getItem("numGenes") 
     !== null ? Number(sessionStorage.getItem("numGenes")) : 25)
-    const [dataset, setDataset] = useState("Zebrafish Retina")
+    const [dataset, setDataset] = useState(sessionStorage.getItem("dataset")
+    !== null ? sessionStorage.getItem("dataset") : "Zebrafish Retina")
     const [scatterData, setScatterData] = useState([])
     const [showRaw, setShowRaw] = useState(false)
 
@@ -62,7 +64,7 @@ export default function SingleWeighted() {
     'Retinal cell',
     'Retinal Cone cell',
     'Retinal Pigment Epithelial cell']
-
+//i want to save values for reload
     function changeWeight(val) {
         if (validWeight.test(val)) {
             if (val === "") {
@@ -74,6 +76,13 @@ export default function SingleWeighted() {
             sessionStorage.setItem("weight", val);
         } 
     }
+//i want to save values for reload 
+    function setAndStoreTissueType(type) {
+        sessionStorage.setItem("tissueType", type)
+        setTissueType(type)
+    }
+
+
 
     async function searchWeighted() {
         setLoad(true)
@@ -105,16 +114,17 @@ export default function SingleWeighted() {
     }
     //make sure the tissue type choices line up with the dataset type choice
     function setDatasetAndSelection(newType) {
+
         if (dataset !== newType) {
             if (newType === "Zebrafish Landscape") {
-                setTissueType(landscapeTypes[0])
+                setAndStoreTissueType(landscapeTypes[0])
             } else if (newType === "Zebrafish Retina") {
-                setTissueType(tissueTypes[0])
+                setAndStoreTissueType(tissueTypes[0])
             } else if (newType === "Zebrafish Landscape Day 3") {
-                setTissueType(day3Types[0])
+                setAndStoreTissueType(day3Types[0])
             }
         }
-        
+        sessionStorage.setItem("dataset", newType)
         setDataset(newType)
     }
 
@@ -133,10 +143,10 @@ export default function SingleWeighted() {
             <p style={{ margin: "0px", padding: "0px 10px 0px 10px" }}>Set tissue type</p>
                 <DropdownButton size='sm' variant="outline-primary" id="dropdown-basic-button" title={tissueType}>
                     {dataset === "Zebrafish Retina" ? 
-                    tissueTypes.map(type => <Dropdown.Item key={type} onClick={() => setTissueType(type)} >{type}</Dropdown.Item>)
+                    tissueTypes.map(type => <Dropdown.Item key={type} onClick={() => setAndStoreTissueType(type)} >{type}</Dropdown.Item>)
                     : (dataset === "Zebrafish Landscape" ? 
-                    landscapeTypes.map(type => <Dropdown.Item key={type} onClick={() => setTissueType(type)} >{type}</Dropdown.Item>)
-                    :day3Types.map(type => <Dropdown.Item key={type} onClick={() => setTissueType(type)} >{type}</Dropdown.Item>))}
+                    landscapeTypes.map(type => <Dropdown.Item key={type} onClick={() => setAndStoreTissueType(type)} >{type}</Dropdown.Item>)
+                    :day3Types.map(type => <Dropdown.Item key={type} onClick={() => setAndStoreTissueType(type)} >{type}</Dropdown.Item>))}
                     
                 </DropdownButton>
             </div>
