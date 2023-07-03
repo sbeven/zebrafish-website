@@ -11,7 +11,14 @@ export default function SingleLookup() {
     const [searchWord, setSearchWord] = useState("")
     const [data, setData] = useState([])
     const [gene, setGene] = useState("")
-    const [dataset, setDataset] = useState("Zebrafish Retina")
+    const [dataset, setDataset] = useState(sessionStorage.getItem("dataset")
+    !== null ? sessionStorage.getItem("dataset") : "Zebrafish Retina")
+
+
+    function setAndStoreDataset(dataset) {
+        sessionStorage.setItem("dataset", dataset)
+        setDataset(dataset)
+    }
 
     //api call set and get
     async function search() {
@@ -51,9 +58,9 @@ export default function SingleLookup() {
         <div style={{ display: 'flex', alignItems: "center", margin: "5px 0px"}}>
                 <p style={{ margin: "0px", padding: "0px 10px 0px 0px" }}>Set dataset</p>
                 <DropdownButton size='sm' variant="outline-primary" id="dropdown-basic-button" title={dataset}>
-                    <Dropdown.Item onClick={() => setDataset("Zebrafish Retina")} >Zebrafish Retina</Dropdown.Item>
-                    <Dropdown.Item onClick={() => setDataset("Zebrafish Landscape")} >Zebrafish Landscape</Dropdown.Item>
-                    <Dropdown.Item onClick={() => setDataset("Zebrafish Landscape Day 3")} >Zebrafish Landscape Day 3</Dropdown.Item>
+                    <Dropdown.Item onClick={() => setAndStoreDataset("Zebrafish Retina")} >Zebrafish Retina</Dropdown.Item>
+                    <Dropdown.Item onClick={() => setAndStoreDataset("Zebrafish Landscape")} >Zebrafish Landscape</Dropdown.Item>
+                    <Dropdown.Item onClick={() => setAndStoreDataset("Zebrafish Landscape Day 3")} >Zebrafish Landscape Day 3</Dropdown.Item>
                     
                 </DropdownButton>
             </div>
