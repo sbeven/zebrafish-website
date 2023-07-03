@@ -17,7 +17,7 @@ export default function SingleWeighted() {
     
     const [scatterData, setScatterData] = useState([])
     const validWeight = new RegExp("^[0-9]$|^[1-9][0-9]$|^(100)$|^$")
-    const tissueTypes = ["Amacrine","Bipolar","Cone","Cornea","Horizontal","Müller Glia","RGC","Rod","RPE"]
+    const tissueTypes = ["Amacrine","Bipolar","Cone","Cornea","Horizontal","Muller Glia","RGC","Rod","RPE"]
     const landscapeTypes = ['Cardiomyocyte', 'Endothelial cell', 
   'Enterocyte', 'Epithelial cell', 'Epithelial cell (Brain)', 
   'Erythrocyte', 'Erythrocyte (Liver)', 'Erythroid Progenitor cell', 

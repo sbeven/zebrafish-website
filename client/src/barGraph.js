@@ -97,7 +97,7 @@ import {
     },
   };
   
-  const labels = ["Amacrine","Bipolar","Cone","Cornea","Horizontal","Müller Glia","RGC","Rod","RPE"];
+  const labels = ["Amacrine","Bipolar","Cone","Cornea","Horizontal","Muller Glia","RGC","Rod","RPE"];
   
   var data = {
     labels: labels,
