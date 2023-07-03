@@ -21,8 +21,8 @@ const options = {
     animation: false,
     elements: {
         point: {
-            pointRadius: 5,
-            hoverRadius: 7
+            pointRadius: 4,
+            hoverRadius: 6
         }
     },
     scales: {

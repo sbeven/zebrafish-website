@@ -17,6 +17,7 @@ export default function SingleWeighted() {
     
     const [scatterData, setScatterData] = useState([])
     const validWeight = new RegExp("^[0-9]$|^[1-9][0-9]$|^(100)$|^$")
+    const validNum = new RegExp("^[0-9]*$")
     const tissueTypes = ["Amacrine","Bipolar","Cone","Cornea","Horizontal","Muller Glia","RGC","Rod","RPE"]
     const landscapeTypes = ['Cardiomyocyte', 'Endothelial cell', 
   'Enterocyte', 'Epithelial cell', 'Epithelial cell (Brain)', 
@@ -168,10 +169,28 @@ export default function SingleWeighted() {
                 </div>
             </div>
             
-            <div style={{padding: "20px 0px 0px 0px", width:"400px" }}>
-                <p style={{ margin: "0px", padding: "0px 10px 0px 0px" }}>Show the top {numGenes} genes</p>
+
+
+
+            <div style={{padding: "20px 0px 0px 0px" }}>
+                <div style={{display:'flex', alignItems: "center" }}>
+                <p style={{ margin: "0px", padding: "0px 10px 0px 0px" }}>Show the top </p>
+                <Form.Control
+                    value={numGenes}
+                    style={{ width: "60px", padding: "0px 5px" }}
+                    onChange={(e) => {if (validNum.test(e.target.value)) {setNumGenes(e.target.value)}}}
+                    aria-label="Search"
+                    aria-describedby="basic-addon1"
+                    margin="auto"
+                />
+                <p style={{ margin: "0px", padding: "0px 10px 0px 10px" }}> genes</p>
+                </div>
+                {numGenes > 500 ? <p> 
+                Warning: numbers greater than 500 may cause lag</p> : null}
+                {/* theres some weird date formatting going on in cone at num=144 50%, 2 genes have the name 3/1/2023 that get
+                converted to 1-Mar, and it causes errors*/}
                 <Slider
-                        style={{ margin: "0px 10px"}}
+                        style={{ margin: "0px 10px", width:"400px"}}
                         min={5} max = {500}
                         onChange={(e) => {setNumGenes(e.target.value); 
                         sessionStorage.setItem("numGenes", e.target.value)}}

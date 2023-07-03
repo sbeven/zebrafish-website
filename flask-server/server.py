@@ -70,10 +70,6 @@ def searchWeighted():
     sum = sum.sort_values(ascending=False)
     list = []
     for gene in sum.iloc[:number].index:
-        print(gene)
-        print(cov[gene])
-        print(spec[gene])
-        print(len(list))
         list.append({"data": gene, "x": cov[gene], "y": spec[gene]})
     return list
     

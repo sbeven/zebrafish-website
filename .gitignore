@@ -12,3 +12,7 @@ Landscape72hr_spec.csv
 Landscape72hr.csv
 Landscape72hr.truncated.csv
 .DS_Store
+Retina.gene.expr.pct.csv
+Landscape.gene.expr.pct.csv
+Landscape.gene.expr_v2.csv
+Landscape72hr_v2.csv
