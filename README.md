@@ -1,3 +1,4 @@
+Website setup directions
 step 1: download files from github
 
 step 2: set up python environment folder env in flask-server, install packages in requirements.txt
