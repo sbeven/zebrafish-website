@@ -14,10 +14,14 @@ export default function SingleWeighted() {
     const [numGenes, setNumGenes] = useState(sessionStorage.getItem("numGenes") 
     !== null ? Number(sessionStorage.getItem("numGenes")) : 25)
     const [dataset, setDataset] = useState("Zebrafish Retina")
-    
     const [scatterData, setScatterData] = useState([])
+    const [showRaw, setShowRaw] = useState(false)
+
     const validWeight = new RegExp("^[0-9]$|^[1-9][0-9]$|^(100)$|^$")
     const validNum = new RegExp("^[0-9]*$")
+
+
+
     const tissueTypes = ["Amacrine","Bipolar","Cone","Cornea","Horizontal","Muller Glia","RGC","Rod","RPE"]
     const landscapeTypes = ['Cardiomyocyte', 'Endothelial cell', 
   'Enterocyte', 'Epithelial cell', 'Epithelial cell (Brain)', 
@@ -116,7 +120,7 @@ export default function SingleWeighted() {
 
     return (
         <div>
-            <h1>Specificity/Coverage weighted lookup (Retina)</h1>
+            <h1>Specificity/Coverage weighted lookup</h1>
             <p style={{margin: "0px"}}>Search for the top genes based on a weighted average of specificity and coverage.
                 Click on a point to show expression percentages.</p>
             <div style={{ display: 'flex', alignItems: "center", margin: "5px 0px"}}>
@@ -140,7 +144,7 @@ export default function SingleWeighted() {
 
 
             <div style={{ display: 'flex', alignItems: "center" }}>
-                <p style={{ margin: "0px", padding: "0px 10px 0px 0px" }}>Set coverage weight</p>
+                <p style={{ margin: "0px", padding: "0px 10px 0px 0px" }}>Set coverage weight:</p>
                 <Form.Control
                     value={string}
                     style={{ width: "40px", padding: "0px 5px" }}
@@ -191,7 +195,7 @@ export default function SingleWeighted() {
                 converted to 1-Mar, and it causes errors*/}
                 <Slider
                         style={{ margin: "0px 10px", width:"400px"}}
-                        min={5} max = {500}
+                        min={1} max = {500}
                         onChange={(e) => {setNumGenes(e.target.value); 
                         sessionStorage.setItem("numGenes", e.target.value)}}
                         value={numGenes} aria-label="Default" />
@@ -212,9 +216,19 @@ export default function SingleWeighted() {
             </div>
 
             <ScatterGraph passedData={scatterData} passedDataset={dataset}/>
+            
+            <Button 
+                variant="outline-primary"
+                onClick={() => setShowRaw(!showRaw)}>
+                {showRaw ? "Hide raw data" : "Show raw data" }
+            </Button>
 
-
-
+            {showRaw ? 
+            <div>
+            <p>Raw scatter plot data:</p>
+            <p>{JSON.stringify(scatterData)}</p>
+            </div>
+            : null}
         </div>
     )
 }
