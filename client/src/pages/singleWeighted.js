@@ -192,7 +192,8 @@ export default function SingleWeighted() {
                 <Form.Control
                     value={numGenes}
                     style={{ width: "60px", padding: "0px 5px" }}
-                    onChange={(e) => {if (validNum.test(e.target.value)) {setNumGenes(e.target.value)}}}
+                    onChange={(e) => {if (validNum.test(e.target.value)) {setNumGenes(Number(e.target.value)); 
+                        sessionStorage.setItem("numGenes", Number(e.target.value))}}}
                     aria-label="Search"
                     aria-describedby="basic-addon1"
                     margin="auto"
@@ -232,11 +233,11 @@ export default function SingleWeighted() {
                 onClick={() => setShowRaw(!showRaw)}>
                 {showRaw ? "Hide raw data" : "Show raw data" }
             </Button>
-
+            {/* I can't fix this issue where text goes past the p block for no reason*/}
             {showRaw ? 
             <div>
             <p>Raw scatter plot data:</p>
-            <p>{JSON.stringify(scatterData)}</p>
+            <p style={{overflow: "auto"}}>{JSON.stringify(scatterData)}</p>
             </div>
             : null}
         </div>
