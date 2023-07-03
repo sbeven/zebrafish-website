@@ -89,7 +89,7 @@ export default function SingleWeighted() {
                 
         ).then(
             object => {
-                console.log(scatterData)
+                console.log(object)
                 setScatterData(object)
             }
         ).catch(
@@ -135,6 +135,9 @@ export default function SingleWeighted() {
                     
                 </DropdownButton>
             </div>
+
+
+
             <div style={{ display: 'flex', alignItems: "center" }}>
                 <p style={{ margin: "0px", padding: "0px 10px 0px 0px" }}>Set coverage weight</p>
                 <Form.Control
@@ -169,11 +172,14 @@ export default function SingleWeighted() {
                 <p style={{ margin: "0px", padding: "0px 10px 0px 0px" }}>Show the top {numGenes} genes</p>
                 <Slider
                         style={{ margin: "0px 10px"}}
-                        min={5} max = {100}
+                        min={5} max = {500}
                         onChange={(e) => {setNumGenes(e.target.value); 
                         sessionStorage.setItem("numGenes", e.target.value)}}
                         value={numGenes} aria-label="Default" />
             </div>
+
+
+            
             <div style={{width: "400px"}}>
             {/* Dont really know why but this works, like centering for img */}
             <Button style={{  display: "block",

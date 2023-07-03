@@ -68,7 +68,6 @@ def searchWeighted():
     sum = cov_weighted + spec_weighted
 
     sum = sum.sort_values(ascending=False)
-
     list = []
     for gene in sum.iloc[:number].index:
         list.append({"data": gene, "x": cov[gene], "y": spec[gene]})
