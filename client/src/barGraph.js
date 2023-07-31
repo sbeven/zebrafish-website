@@ -60,6 +60,12 @@ import {
   'Pancreatic Macrophage', 'Primordial Germ cell', 'Radial Glia', 'Retinal cell', 'Retinal Cone cell', 
   'Retinal Pigment Epithelial cell', 'Smooth Muscle cell', 'Spermatocyte', 'T cell']
 
+  const larvalLabels = ["cluster.1", "cluster.2", "cluster.3", "cluster.4", "cluster.5",
+  "cluster.6","cluster.7","cluster.8","cluster.9","cluster.10","cluster.11",
+  "cluster.12","cluster.13","cluster.14","cluster.15","cluster.16",
+  "cluster.17","cluster.18","cluster.19","cluster.20","cluster.21","cluster.22",
+  "cluster.23","cluster.24","cluster.25","cluster.26","cluster.27","cluster.28","cluster.29"]
+
   const options = {
     indexAxis: 'y',
     scales: {
@@ -130,7 +136,9 @@ export default function BarGraph({passedData, passedGene, dataset}) {
 
     } else if (dataset === "Zebrafish Landscape Day 3") {
       chart.data.labels = day3Labels
-    }
+    } else if (dataset === "Larval RGC") {
+      chart.data.labels = larvalLabels
+    } 
     chart.data.datasets[0].data = []
     chart.options.plugins.title.text = ""
     chart.update()

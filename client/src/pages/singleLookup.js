@@ -61,7 +61,7 @@ export default function SingleLookup() {
                     <Dropdown.Item onClick={() => setAndStoreDataset("Zebrafish Retina")} >Zebrafish Retina</Dropdown.Item>
                     <Dropdown.Item onClick={() => setAndStoreDataset("Zebrafish Landscape")} >Zebrafish Landscape</Dropdown.Item>
                     <Dropdown.Item onClick={() => setAndStoreDataset("Zebrafish Landscape Day 3")} >Zebrafish Landscape Day 3</Dropdown.Item>
-                    
+                    <Dropdown.Item onClick={() => setAndStoreDataset("Larval RGC")} >Larval RGC</Dropdown.Item>
                 </DropdownButton>
             </div>
         <div id="searchbar">

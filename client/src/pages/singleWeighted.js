@@ -64,6 +64,12 @@ export default function SingleWeighted() {
     'Retinal cell',
     'Retinal Cone cell',
     'Retinal Pigment Epithelial cell']
+
+    const larvalTypes = ["cluster.1", "cluster.2", "cluster.3", "cluster.4", "cluster.5",
+    "cluster.6","cluster.7","cluster.8","cluster.9","cluster.10","cluster.11",
+    "cluster.12","cluster.13","cluster.14","cluster.15","cluster.16",
+    "cluster.17","cluster.18","cluster.19","cluster.20","cluster.21","cluster.22",
+    "cluster.23","cluster.24","cluster.25","cluster.26","cluster.27","cluster.28","cluster.29"]
 //i want to save values for reload
     function changeWeight(val) {
         if (validWeight.test(val)) {
@@ -122,7 +128,11 @@ export default function SingleWeighted() {
                 setAndStoreTissueType(tissueTypes[0])
             } else if (newType === "Zebrafish Landscape Day 3") {
                 setAndStoreTissueType(day3Types[0])
+            } else if (newType === "Larval RGC") {
+                setAndStoreTissueType(larvalTypes[0])
             }
+
+            
         }
         sessionStorage.setItem("dataset", newType)
         setDataset(newType)
@@ -139,6 +149,7 @@ export default function SingleWeighted() {
                 <Dropdown.Item onClick={() => setDatasetAndSelection("Zebrafish Retina")} >Zebrafish Retina</Dropdown.Item>
                 <Dropdown.Item onClick={() => setDatasetAndSelection("Zebrafish Landscape")} >Zebrafish Landscape</Dropdown.Item>
                 <Dropdown.Item onClick={() => setDatasetAndSelection("Zebrafish Landscape Day 3")} >Zebrafish Landscape Day 3</Dropdown.Item>
+                <Dropdown.Item onClick={() => setDatasetAndSelection("Larval RGC")} >Larval RGC</Dropdown.Item>
             </DropdownButton>
             <p style={{ margin: "0px", padding: "0px 10px 0px 10px" }}>Set tissue type</p>
                 <DropdownButton size='sm' variant="outline-primary" id="dropdown-basic-button" title={tissueType}>
@@ -146,7 +157,9 @@ export default function SingleWeighted() {
                     tissueTypes.map(type => <Dropdown.Item key={type} onClick={() => setAndStoreTissueType(type)} >{type}</Dropdown.Item>)
                     : (dataset === "Zebrafish Landscape" ? 
                     landscapeTypes.map(type => <Dropdown.Item key={type} onClick={() => setAndStoreTissueType(type)} >{type}</Dropdown.Item>)
-                    :day3Types.map(type => <Dropdown.Item key={type} onClick={() => setAndStoreTissueType(type)} >{type}</Dropdown.Item>))}
+                    :(dataset === "Larval RGC" ? 
+                    larvalTypes.map(type => <Dropdown.Item key={type} onClick={() => setAndStoreTissueType(type)} >{type}</Dropdown.Item>)
+                    :day3Types.map(type => <Dropdown.Item key={type} onClick={() => setAndStoreTissueType(type)} >{type}</Dropdown.Item>)))}
                     
                 </DropdownButton>
             </div>

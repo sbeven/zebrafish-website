@@ -20,7 +20,10 @@ df_land_72hr = pd.read_csv("../Landscape72hr.truncated.csv")
 df_land_72hr = df_land_72hr.set_index("Unnamed: 0")
 df_land_72hr_spec = pd.read_csv("../Landscape72hr_spec.csv")
 df_land_72hr_spec = df_land_72hr_spec.set_index("Unnamed: 0")
-
+df_larval_RGC = pd.read_csv("../Larval_RGC.gene.expr.csv")
+df_larval_RGC = df_larval_RGC.set_index("Unnamed: 0")
+df_larval_RGC_spec = pd.read_csv("../Larval_RGC.gene.expr.spec.csv")
+df_larval_RGC_spec = df_larval_RGC_spec.set_index("Unnamed: 0")
 
 #API Route
 @app.route("/search", methods=['GET'])
@@ -42,6 +45,11 @@ def search():
             return {"data": df_land_72hr.loc[row].tolist()}
         else:
             return "Record not found", 400
+    elif dataset == "Larval RGC":
+        if row.upper() in df_larval_RGC.index:
+            return {"data": df_larval_RGC.loc[row.upper()].tolist()}
+        else:
+            return "Record not found", 400
 
 @app.route("/searchWeighted", methods=['GET'])
 def searchWeighted():
@@ -59,6 +67,9 @@ def searchWeighted():
     elif dataset == "Zebrafish Landscape Day 3":
         base_data = df_land_72hr
         spec_data = df_land_72hr_spec
+    elif dataset == "Larval RGC":
+        base_data = df_larval_RGC
+        spec_data = df_larval_RGC_spec
     percent =  weight / 100
     cov = base_data[tissue]
     spec = spec_data[tissue + "_spec"]
