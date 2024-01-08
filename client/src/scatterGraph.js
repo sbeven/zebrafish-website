@@ -93,7 +93,7 @@ export default function ScatterGraph({passedData, passedDataset}) {
     // this is straight up copypaste
     
     async function search(gene) {
-        await fetch("/search?"+ new URLSearchParams({
+        await fetch("/backend/search?"+ new URLSearchParams({
             gene: gene,
             dataset: passedDataset
         })).then(

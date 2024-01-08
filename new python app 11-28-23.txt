@@ -1,0 +1,301 @@
+from flask import Flask
+from flask import request
+from flask import jsonify
+import numpy as np
+import pandas as pd
+
+app = Flask(__name__)
+
+# set up data
+df = pd.read_csv("./Retina.gene.expr.renamed.csv")
+df = df.set_index("Unnamed: 0")
+df_spec = pd.read_csv("./spec.csv")
+df_spec = df_spec.set_index("Unnamed: 0")
+df_land = pd.read_csv("./Landscape.gene.expr.truncated.csv")
+df_land = df_land.set_index("gene")
+df_land_spec = pd.read_csv("./Landscape_spec.csv")
+df_land_spec = df_land_spec.set_index("gene")
+df_land_72hr = pd.read_csv("./Landscape72hr.truncated.csv")
+df_land_72hr = df_land_72hr.set_index("Unnamed: 0")
+df_land_72hr_spec = pd.read_csv("./Landscape72hr_spec.csv")
+df_land_72hr_spec = df_land_72hr_spec.set_index("Unnamed: 0")
+df_larval_RGC = pd.read_csv("./Larval_RGC.gene.expr.csv")
+df_larval_RGC = df_larval_RGC.set_index("Unnamed: 0")
+df_larval_RGC_spec = pd.read_csv("./Larval_RGC.gene.expr.spec.csv")
+df_larval_RGC_spec = df_larval_RGC_spec.set_index("Unnamed: 0")
+df_innerEar_12mpf = pd.read_csv("./InnerEar_12mpf.gene.expr.csv")
+df_innerEar_12mpf = df_innerEar_12mpf.set_index("Unnamed: 0")
+df_innerEar_12mpf_spec = pd.read_csv("./InnerEar_12mpf.gene.expr.spec.csv")
+df_innerEar_12mpf_spec = df_innerEar_12mpf_spec.set_index("Unnamed: 0")
+df_ovary_40dpf = pd.read_csv("./zebrafish_40dpf_ovary.csv")
+df_ovary_40dpf = df_ovary_40dpf.set_index("Unnamed: 0")
+df_ovary_40dpf_spec = pd.read_csv("./zebrafish_40dpf_ovary.spec.csv")
+df_ovary_40dpf_spec = df_ovary_40dpf_spec.set_index("Unnamed: 0")
+df_Intestine_6dpf = pd.read_csv("./Intestine_6dpf.gene.expr.csv")
+df_Intestine_6dpf = df_Intestine_6dpf.set_index("Unnamed: 0")
+df_Intestine_6dpf_spec = pd.read_csv("./Intestine_6dpf.gene.expr.spec.csv")
+df_Intestine_6dpf_spec = df_Intestine_6dpf_spec.set_index("Unnamed: 0")
+df_Hindbrain = pd.read_csv("./Hindbrain_16hpf.24hpf.44hpf.csv")
+df_Hindbrain = df_Hindbrain.set_index("Unnamed: 0")
+df_Hindbrain_spec = pd.read_csv("./Hindbrain_16hpf.24hpf.44hpf.spec.csv")
+df_Hindbrain_spec = df_Hindbrain_spec.set_index("Unnamed: 0")
+df_Telencephalon_6dpf = pd.read_csv("./Telencephalon_6dpf.csv")
+df_Telencephalon_6dpf = df_Telencephalon_6dpf.set_index("Unnamed: 0")
+df_Telencephalon_6dpf_spec = pd.read_csv("./Telencephalon_6dpf.spec.csv")
+df_Telencephalon_6dpf_spec = df_Telencephalon_6dpf_spec.set_index("Unnamed: 0")
+df_Telencephalon = pd.read_csv("./Telencephalon_6dpf.15dpf.adult.csv")
+df_Telencephalon = df_Telencephalon.set_index("Unnamed: 0")
+df_Telencephalon_spec = pd.read_csv("./Telencephalon_6dpf.15dpf.adult.spec.csv")
+df_Telencephalon_spec = df_Telencephalon_spec.set_index("Unnamed: 0")
+df_DevelopingRetina = pd.read_csv("./DevelopingRetina.expr.csv")
+df_DevelopingRetina = df_DevelopingRetina.set_index("Unnamed: 0")
+df_DevelopingRetina_spec = pd.read_csv("./DevelopingRetina.spec.csv")
+df_DevelopingRetina_spec = df_DevelopingRetina_spec.set_index("Unnamed: 0")
+df_Pairs_DevelopingRetina = pd.read_csv("./DevelopingRetina_58373Pairs_coverage.csv")
+df_Pairs_DevelopingRetina = df_Pairs_DevelopingRetina.set_index("Unnamed: 0")
+df_Pairs_DevelopingRetina_spec = pd.read_csv("./DevelopingRetina_58373Pairs_specificity.csv")
+df_Pairs_DevelopingRetina_spec = df_Pairs_DevelopingRetina_spec.set_index("Unnamed: 0")
+df_Pairs_Hindbrain = pd.read_csv("./Hindbrain_59227Pairs_coverage.csv")
+df_Pairs_Hindbrain = df_Pairs_Hindbrain.set_index("Unnamed: 0")
+df_Pairs_Hindbrain_spec = pd.read_csv("./Hindbrain_59227Pairs_specificity.csv")
+df_Pairs_Hindbrain_spec = df_Pairs_Hindbrain_spec.set_index("Unnamed: 0")
+df_Pairs_InnerEar = pd.read_csv("./InnerEar_58795Pairs_coverage.csv")
+df_Pairs_InnerEar = df_Pairs_InnerEar.set_index("Unnamed: 0")
+df_Pairs_InnerEar_spec = pd.read_csv("./InnerEar_58795Pairs_specificity.csv")
+df_Pairs_InnerEar_spec = df_Pairs_InnerEar_spec.set_index("Unnamed: 0")
+df_Pairs_Intestine = pd.read_csv("./Intestine_55107Pairs_coverage.csv")
+df_Pairs_Intestine = df_Pairs_Intestine.set_index("Unnamed: 0")
+df_Pairs_Intestine_spec = pd.read_csv("./Intestine_55107Pairs_specificity.csv")
+df_Pairs_Intestine_spec = df_Pairs_Intestine_spec.set_index("Unnamed: 0")
+df_Pairs_Landscape72hpf = pd.read_csv("./Landscape72hpf_59337Pairs_coverage.csv")
+df_Pairs_Landscape72hpf = df_Pairs_Landscape72hpf.set_index("Unnamed: 0")
+df_Pairs_Landscape72hpf_spec = pd.read_csv("./Landscape72hpf_59337Pairs_specificity.csv")
+df_Pairs_Landscape72hpf_spec = df_Pairs_Landscape72hpf_spec.set_index("Unnamed: 0")
+df_Pairs_LarvalRGC = pd.read_csv("./Larval_RGC_57382Pairs_coverage.csv")
+df_Pairs_LarvalRGC = df_Pairs_LarvalRGC.set_index("Unnamed: 0")
+df_Pairs_LarvalRGC_spec = pd.read_csv("./Larval_RGC_57382Pairs_specificity.csv")
+df_Pairs_LarvalRGC_spec = df_Pairs_LarvalRGC_spec.set_index("Unnamed: 0")
+df_Pairs_Ovary40dpf = pd.read_csv("./Ovary_56425Pairs_coverage.csv")
+df_Pairs_Ovary40dpf = df_Pairs_Ovary40dpf.set_index("Unnamed: 0")
+df_Pairs_Ovary40dpf_spec = pd.read_csv("./Ovary_56425Pairs_specificity.csv")
+df_Pairs_Ovary40dpf_spec = df_Pairs_Ovary40dpf_spec.set_index("Unnamed: 0")
+df_Pairs_Retina6dpf = pd.read_csv("./Retina_Day6_57172Pairs_coverage.csv")
+df_Pairs_Retina6dpf = df_Pairs_Retina6dpf.set_index("Unnamed: 0")
+df_Pairs_Retina6dpf_spec = pd.read_csv("./Retina_Day6_57172Pairs_specificity.csv")
+df_Pairs_Retina6dpf_spec = df_Pairs_Retina6dpf_spec.set_index("Unnamed: 0")
+df_Pairs_Telencephalon = pd.read_csv("./Telencephalon_59545Pairs_coverage.csv")
+df_Pairs_Telencephalon = df_Pairs_Telencephalon.set_index("Unnamed: 0")
+df_Pairs_Telencephalon_spec = pd.read_csv("./Telencephalon_59545Pairs_specificity.csv")
+df_Pairs_Telencephalon_spec = df_Pairs_Telencephalon_spec.set_index("Unnamed: 0")
+# works up to here
+df_Pairs_Telencephalon6dpf = pd.read_csv("./Telencephalon6dpf_59545Pairs_coverage.csv")
+df_Pairs_Telencephalon6dpf = df_Pairs_Telencephalon6dpf.set_index("Unnamed: 0")
+df_Pairs_Telencephalon6dpf_spec = pd.read_csv("./Telencephalon6dpf_59545Pairs_specificity.csv")
+df_Pairs_Telencephalon6dpf_spec = df_Pairs_Telencephalon6dpf_spec.set_index("Unnamed: 0")
+
+
+# check if flask works
+@app.route("/", methods=['GET'])
+def ret():
+    return {"data": df.iloc[0].tolist()}
+
+#API Route
+@app.route("/search", methods=['GET'])
+def search():
+    print(request)
+    row = request.args.get('gene')
+    dataset = request.args.get('dataset')
+    if dataset == "Zebrafish Retina":
+        if row in df.index:
+            return {"data": df.loc[row].tolist()}
+        else:
+            return "Record not found", 400
+    elif dataset == "Zebrafish Landscape":
+        if row in df_land.index:
+            return {"data": df_land.loc[row].tolist()}
+        else:
+            return "Record not found", 400
+    elif dataset == "Zebrafish Landscape Day 3":
+        if row in df_land_72hr.index:
+            return {"data": df_land_72hr.loc[row].tolist()}
+        else:
+            return "Record not found", 400
+    elif dataset == "Larval RGC":
+        if row.upper() in df_larval_RGC.index:
+            return {"data": df_larval_RGC.loc[row.upper()].tolist()}
+        else:
+            return "Record not found", 400
+    elif dataset == "Inner Ear 12mpf":
+        if row in df_innerEar_12mpf.index:
+            return {"data": df_innerEar_12mpf.loc[row].tolist()}
+        else:
+            return "Record not found", 400
+    elif dataset == "Ovary 40dpf":
+        if row in df_ovary_40dpf.index:
+            return {"data": df_ovary_40dpf.loc[row].tolist()}
+        else:
+            return "Record not found", 400
+    elif dataset == "Intestine 6dpf":
+        if row in df_Intestine_6dpf.index:
+            return {"data": df_Intestine_6dpf.loc[row].tolist()}
+        else:
+            return "Record not found", 400
+    elif dataset == "Hindbrain 16hpf_24hpf_44hpf":
+        if row in df_Hindbrain.index:
+            return {"data": df_Hindbrain.loc[row].tolist()}
+        else:
+            return "Record not found", 400
+    elif dataset == "Telencephalon 6dpf":
+        if row in df_Telencephalon_6dpf.index:
+            return {"data": df_Telencephalon_6dpf.loc[row].tolist()}
+        else:
+            return "Record not found", 400
+    elif dataset == "Telencephalon 6dpf_15dpf_adult":
+        if row in df_Telencephalon.index:
+            return {"data": df_Telencephalon.loc[row].tolist()}
+        else:
+            return "Record not found", 400
+    elif dataset == "Developing Retina":
+        if row in df_DevelopingRetina.index:
+            return {"data": df_DevelopingRetina.loc[row].tolist()}
+        else:
+            return "Record not found", 400
+    elif dataset == "Pairs_Developing Retina":
+        if row in df_Pairs_DevelopingRetina.index:
+            return {"data": df_Pairs_DevelopingRetina.loc[row].tolist()}
+        else:
+            return "Record not found", 400
+    elif dataset == "Pairs_Hindbrain":
+        if row in df_Pairs_Hindbrain.index:
+            return {"data": df_Pairs_Hindbrain.loc[row].tolist()}
+        else:
+            return "Record not found", 400
+    elif dataset == "Pairs_Inner Ear":
+        if row in df_Pairs_InnerEar.index:
+            return {"data": df_Pairs_InnerEar.loc[row].tolist()}
+        else:
+            return "Record not found", 400
+    elif dataset == "Pairs_Intestine":
+        if row in df_Pairs_Intestine.index:
+            return {"data": df_Pairs_Intestine.loc[row].tolist()}
+        else:
+            return "Record not found", 400
+    elif dataset == "Pairs_Landscape 72hpf":
+        if row in df_Pairs_Landscape72hpf.index:
+            return {"data": df_Pairs_Landscape72hpf.loc[row].tolist()}
+        else:
+            return "Record not found", 400
+    elif dataset == "Pairs_Larval RGC":
+        if row in df_Pairs_LarvalRGC.index:
+            return {"data": df_Pairs_LarvalRGC.loc[row].tolist()}
+        else:
+            return "Record not found", 400
+    elif dataset == "Pairs_Ovary 40dpf":
+        if row in df_Pairs_Ovary40dpf.index:
+            return {"data": df_Pairs_Ovary40dpf.loc[row].tolist()}
+        else:
+            return "Record not found", 400
+    elif dataset == "Pairs_Retina 6dpf":
+        if row in df_Pairs_Retina6dpf.index:
+            return {"data": df_Pairs_Retina6dpf.loc[row].tolist()}
+        else:
+            return "Record not found", 400
+    elif dataset == "Pairs_Telencephalon":
+        if row in df_Pairs_Telencephalon.index:
+            return {"data": df_Pairs_Telencephalon.loc[row].tolist()}
+        else:
+            return "Record not found", 400
+    elif dataset == "Pairs_Telencephalon 6dpf":
+        if row in df_Pairs_Telencephalon6dpf.index:
+            return {"data": df_Pairs_Telencephalon6dpf.loc[row].tolist()}
+        else:
+            return "Record not found", 400
+
+
+@app.route("/searchWeighted", methods=['GET'])
+def searchWeighted():
+    dataset = request.args.get('dataset')
+    tissue = request.args.get("tissue")
+    weight = int(request.args.get("weight"))
+    number = int(request.args.get("number"))
+    # set which datasets to get data from
+    if dataset == "Zebrafish Retina":
+        base_data = df
+        spec_data = df_spec
+    elif dataset == "Zebrafish Landscape":
+        base_data = df_land
+        spec_data = df_land_spec
+    elif dataset == "Zebrafish Landscape Day 3":
+        base_data = df_land_72hr
+        spec_data = df_land_72hr_spec
+    elif dataset == "Larval RGC":
+        base_data = df_larval_RGC
+        spec_data = df_larval_RGC_spec
+    elif dataset == "Inner Ear 12mpf":
+        base_data = df_innerEar_12mpf
+        spec_data = df_innerEar_12mpf_spec
+    elif dataset == "Ovary 40dpf":
+        base_data = df_ovary_40dpf
+        spec_data = df_ovary_40dpf_spec
+    elif dataset == "Intestine 6dpf":
+        base_data = df_Intestine_6dpf
+        spec_data = df_Intestine_6dpf_spec
+    elif dataset == "Hindbrain 16hpf_24hpf_44hpf":
+        base_data = df_Hindbrain
+        spec_data = df_Hindbrain_spec
+    elif dataset == "Telencephalon 6dpf":
+        base_data = df_Telencephalon_6dpf
+        spec_data = df_Telencephalon_6dpf_spec
+    elif dataset == "Telencephalon 6dpf_15dpf_adult":
+        base_data = df_Telencephalon
+        spec_data = df_Telencephalon_spec
+    elif dataset == "Developing Retina":
+        base_data = df_DevelopingRetina
+        spec_data = df_DevelopingRetina_spec
+    elif dataset == "Pairs_Developing Retina":
+        base_data = df_Pairs_DevelopingRetina
+        spec_data = df_Pairs_DevelopingRetina_spec
+    elif dataset == "Pairs_Hindbrain":
+        base_data = df_Pairs_Hindbrain
+        spec_data = df_Pairs_Hindbrain_spec
+    elif dataset == "Pairs_Inner Ear":
+        base_data = df_Pairs_InnerEar
+        spec_data = df_Pairs_InnerEar_spec
+    elif dataset == "Pairs_Intestine":
+        base_data = df_Pairs_Intestine
+        spec_data = df_Pairs_Intestine_spec
+    elif dataset == "Pairs_Landscape 72hpf":
+        base_data = df_Pairs_Landscape72hpf
+        spec_data = df_Pairs_Landscape72hpf_spec
+    elif dataset == "Pairs_Larval RGC":
+        base_data = df_Pairs_LarvalRGC
+        spec_data = df_Pairs_LarvalRGC_spec
+    elif dataset == "Pairs_Ovary 40dpf":
+        base_data = df_Pairs_Ovary40dpf
+        spec_data = df_Pairs_Ovary40dpf_spec
+    elif dataset == "Pairs_Retina 6dpf":
+        base_data = df_Pairs_Retina6dpf
+        spec_data = df_Pairs_Retina6dpf_spec
+    elif dataset == "Pairs_Telencephalon":
+        base_data = df_Pairs_Telencephalon
+        spec_data = df_Pairs_Telencephalon_spec
+    elif dataset == "Pairs_Telencephalon 6dpf":
+        base_data = df_Pairs_Telencephalon6dpf
+        spec_data = df_Pairs_Telencephalon6dpf_spec
+    percent =  weight / 100
+    cov = base_data[tissue]
+    spec = spec_data[tissue + "_spec"]
+    cov_weighted = base_data[tissue] * percent
+    spec_weighted = spec_data[tissue + "_spec"] * (1 - percent)
+
+    sum = cov_weighted + spec_weighted
+
+    sum = sum.sort_values(ascending=False)
+    list = []
+    for gene in sum.iloc[:number].index:
+        list.append({"data": gene, "x": cov[gene], "y": spec[gene]})
+    return list
+    
+
+if __name__ == "__main__":
+    app.run(debug = True)

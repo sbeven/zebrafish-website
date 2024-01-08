@@ -24,7 +24,6 @@ df_larval_RGC = pd.read_csv("../Larval_RGC.gene.expr.csv")
 df_larval_RGC = df_larval_RGC.set_index("Unnamed: 0")
 df_larval_RGC_spec = pd.read_csv("../Larval_RGC.gene.expr.spec.csv")
 df_larval_RGC_spec = df_larval_RGC_spec.set_index("Unnamed: 0")
-
 #API Route
 @app.route("/search", methods=['GET'])
 def search():
