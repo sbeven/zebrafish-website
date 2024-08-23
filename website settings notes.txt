@@ -1,0 +1,20 @@
+to work locally, remove /backend on the singlelookup, singleweighted, and scatter plot search functions, add them back when its time to build
+
+make sure that the proxy is markergenes.com? 
+
+
+
+cell image: https://www.cell.com/pictureshow/immunofluorescence
+
+
+To add datasets:
+1. Name the first column "Genes"
+2. Name the coverage table with the name that the dataset is going to be
+3. Create a new file with "dataset name"_join that contains the coverage table joined with the specificity table,
+naming the specificity columns with _spec
+4. Upload both files to the MySQL database, accessible through cpanel and phpMyAdmin, making sure to 
+click import while selecting the entirety of Genes
+5. Add the dataset name and the column labels to dataLabels.js
+6. Build the website again and import and the changes should be there.
+
+fishsct competitor webiste

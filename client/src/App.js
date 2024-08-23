@@ -1,7 +1,6 @@
 import SingleLookup from './pages/singleLookup';
 import SingleWeighted from './pages/singleWeighted';
 import Home from './pages/home';
-
 import RootLayout from './layouts/RootLayout';
 import "./App.css"
 import {
@@ -23,7 +22,8 @@ const router = createBrowserRouter(
 
 function App() {
     return (
-      <div className='content'>
+      
+      <div className='App'>
       <RouterProvider router = {router}/>
       </div>
       

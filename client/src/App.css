@@ -23,28 +23,23 @@
     padding: 0px 8px 0px 8px;
 }
 #searchbar {
-    float:left;
     padding: 0px 0px 0px 0px;
     height:40px;
     width:fit-content;
 }
 
-
-#page {
-    /*this makes sure float obects stay inside*/
-    overflow: visible;
-}
+/*
 main {
     padding: 10px 10px 50px 10px
 }
-
+*/
 .graph {
-    flex:1;
-    min-width: 500px;
     min-height: 400px;
-    max-width: 750px;
+    min-width: 300px;
     max-height: 1000px;
-    
+    background-color: rgb(255, 255, 255);
+    margin: auto;
+    flex: 1;
 }
 
 .response {
@@ -52,6 +47,7 @@ main {
     margin:0px;
     text-align: center;
     padding: 6px 0px 0px 8px ;
+    
 }
 
 /*slider page*/
@@ -66,3 +62,29 @@ main {
     max-height: 150px;
     overflow-y: scroll;
   }
+
+/* center all named elements*/
+.center {
+    width: 700px;
+    margin: auto;
+    flex-grow:1; 
+    padding: 10px;
+    background-color: rgb(255, 255, 255);
+}
+
+.centerText{
+    text-align: center;
+}
+
+.cell{
+    background-image: linear-gradient(to right, rgba(156,252,248,1),  #f2fcfe 30%, #f2fcfe 70%, rgba(156,252,248,1));
+    min-height: 91vh;
+    display:flex;
+    flex-direction: column;
+}
+
+img {
+    display: block;
+    width: 100%;
+    height: auto;
+}
