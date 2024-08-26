@@ -18,3 +18,8 @@ click import while selecting the entirety of Genes
 6. Build the website again and import and the changes should be there.
 
 fishsct competitor webiste
+
+
+
+notes 8/25/24
+htaccess backend folder has some settings related to the version of the python app that is changed on app update?

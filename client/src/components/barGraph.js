@@ -34,6 +34,10 @@ const options = {
     x:
 
     {
+      title: {
+        display: true,
+        text: 'Gene Expression Percentage'
+      },
       min: 0,
       max: 1,
       //shows percentages
@@ -65,6 +69,45 @@ const options = {
   },
 };
 
+const optionsAvgExpr = {
+  indexAxis: 'y',
+  scales: {
+    y: {
+      ticks: {
+        font: {
+          size: 10
+        }
+      }
+    },
+    x:
+    {
+      title: {
+        display: true,
+        text: 'Average UMIs'
+      },
+      min: 0,
+    },
+  },
+  responsive: true,
+  maintainAspectRatio: false,
+  plugins: {
+    tooltip: {
+      callbacks: {
+        label: function (object) {
+          return object.raw.toFixed(4);
+        }
+      }
+    },
+    legend: {
+      display: false
+    },
+    title: {
+      display: true,
+      text: '',
+    },
+  },
+};
+
 const labels = ["Amacrine", "Bipolar", "Cone", "Cornea", "Horizontal", "Muller Glia", "RGC", "Rod", "RPE", "Microglia"];
 
 var data = {
@@ -80,7 +123,7 @@ var data = {
 };
 // ^^ this is chart stuff
 
-export default function BarGraph({ passedData, passedGene, dataset }) {
+export default function BarGraph({ passedData, passedGene, dataset, optionalTitle = "Gene Expression Percentage of ", avgExpr = false}) {
   const chartReference = useRef();
   useEffect(() => {
     const chart = chartReference.current
@@ -96,17 +139,17 @@ export default function BarGraph({ passedData, passedGene, dataset }) {
     const chart = chartReference.current
     chart.data.datasets[0].data = passedData
     if (passedGene !== "") {
-      chart.options.plugins.title.text = "Gene Expression Percentage of " + passedGene
+      chart.options.plugins.title.text = optionalTitle + passedGene
     } else {
       chart.options.plugins.title.text = "No Data"
     }
     chart.update()
-  }, [passedData, passedGene])
+  }, [passedData, passedGene, optionalTitle])
   return (
 
-    <div className='graph' style={{ height: dataset === "Zebrafish_InnerEar_12m" || dataset === "Zebrafish_Retina_6dpf" ? "400px" : "700px" }}>
+    <div className='graph' style={{ height: "700px" }}>
       <Bar ref={chartReference}
-        options={options}
+        options={avgExpr? optionsAvgExpr : options}
         data={data} />
     </div>
   )

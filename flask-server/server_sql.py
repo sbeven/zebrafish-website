@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, Blueprint
 from flask import request
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import text
@@ -9,6 +9,8 @@ import sys
 db = SQLAlchemy()
 # create the app
 app = Flask(__name__)
+backend = Blueprint('backend', __name__, url_prefix='/backend')
+
 # configure the SQLite database, relative to the app instance folder
 app.config["SQLALCHEMY_DATABASE_URI"] = "mysql+pymysql://admin:faaZa=[h5rh&@72.167.69.4:3306/Genes"
 app.config["SQLALCHEMY_ENGINE_OPTIONS"] = {"pool_recycle": 55}
@@ -16,11 +18,11 @@ app.config["SQLALCHEMY_ENGINE_OPTIONS"] = {"pool_recycle": 55}
 db.init_app(app)
 
 # check if flask works
-@app.route("/", methods=['GET'])
+@backend.route("/", methods=['GET'])
 def ret():
     return {"data": "wow"}
 #API Route
-@app.route("/search", methods=['GET'])
+@backend.route("/search", methods=['GET'])
 def search():
     name = request.args.get('gene')
     dataset = request.args.get('dataset')
@@ -30,7 +32,21 @@ def search():
     except:
         return "Record not found", 400
 
-@app.route("/searchWeighted", methods=['GET'])
+@backend.route("/searchAvgExpr", methods=['GET'])
+def searchAvgExpr():
+    name = request.args.get('gene')
+    dataset = request.args.get('dataset')
+    dataset_avg_expr = dataset + "_avgexprcounts"
+    result = db.session.execute(text("SELECT * FROM `" + dataset_avg_expr + "` where Gene = BINARY :name"), {"name": name})
+    # convert the avg expr data type to float
+    decimals = list(result.all()[0][1:])
+    floats = [float(i) for i in decimals]
+    try: 
+        return {"data": floats}
+    except:
+        return "Record not found", 400
+
+@backend.route("/searchWeighted", methods=['GET'])
 def searchWeighted():
     dataset = request.args.get('dataset')
     tissue = request.args.get("tissue")
@@ -42,7 +58,9 @@ def searchWeighted():
     for row in result.mappings():
         ret.append({"data": row["Gene"], "x": row[tissue], "y": row[tissue + "_spec"]})
     return ret
-    
+app.register_blueprint(backend)
+
+
 
 if __name__ == "__main__":
     app.run(debug = True)

@@ -1,0 +1,23 @@
+text/x-generic .htaccess ( ASCII text )
+# DO NOT REMOVE. CLOUDLINUX PASSENGER CONFIGURATION BEGIN
+PassengerAppRoot "/home/zxssjwq157qc/backend"
+PassengerBaseURI "/backend"
+PassengerPython "/home/zxssjwq157qc/virtualenv/backend/3.8/bin/python"
+PassengerAppLogFile "/home/zxssjwq157qc/logs/passenger.log"
+# DO NOT REMOVE. CLOUDLINUX PASSENGER CONFIGURATION END
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteBase /
+  RewriteRule ^index\.html$ - [L]
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteCond %{REQUEST_FILENAME} !-d
+  RewriteCond %{REQUEST_FILENAME} !-l
+  # only replace request with index.html if if doesn't contain the word backend
+  # because we want get requests to backend to not be overwritten
+  RewriteCond %{REQUEST_FILENAME} !backend
+  RewriteRule . /index.html [L]
+</IfModule>
+# DO NOT REMOVE OR MODIFY. CLOUDLINUX ENV VARS CONFIGURATION BEGIN
+<IfModule Litespeed>
+</IfModule>
+# DO NOT REMOVE OR MODIFY. CLOUDLINUX ENV VARS CONFIGURATION END
